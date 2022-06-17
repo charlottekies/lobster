@@ -11,6 +11,7 @@ import javax.persistence.*;
 @Data
 @Entity(name = "users")
 @Table(name = "users")
+//@org.springframework.data.relational.core.mapping.Table
 public class User {
 
     /**

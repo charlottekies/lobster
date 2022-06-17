@@ -1,9 +1,9 @@
 package com.charlotte.kies.controller;
 
+import com.charlotte.kies.User;
 import com.charlotte.kies.repository.UserRepository;
 import com.charlotte.kies.service.LobsterService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,7 +20,7 @@ public class Controller {
     private UserRepository userRepository;
 
 
-    @RequestMapping(value = "/", method = RequestMethod.GET)
+    @RequestMapping(method = RequestMethod.GET)
     public String Greeting() {
         return "hello, world";
     }
