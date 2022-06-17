@@ -9,8 +9,8 @@ import org.springframework.stereotype.Service;
 public class LobsterService {
     @Autowired
     UserRepository userRepository;
-//
-//    @Autowired
-//    private EntityFactoryManager entityFactoryManager;
 
+    public LobsterService(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 }
