@@ -15,7 +15,7 @@
                     <configuration>
                         <propertyFile>liquibase.properties</propertyFile>
                         <changeLogFile>changelog.xml</changeLogFile>
-                        <!--                        spring.liquibase.change-log=classpath:database/src/main/liquibase/changelog.xml-->
+<!--                                                spring.liquibase.change-log=classpath:database/src/main/liquibase/changelog.xml-->
                     </configuration>
                     <dependencies>
                         <dependency>
