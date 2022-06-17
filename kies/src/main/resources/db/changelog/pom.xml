@@ -1,0 +1,31 @@
+<project  xmlns="http://maven.apache.org/POM/4.0.0"  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.my-group.app</groupId>
+    <artifactId>LiquiPostgreSQL-app</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.liquibase</groupId>
+                    <artifactId>liquibase-maven-plugin</artifactId>
+                    <version>3.8.0</version>
+                    <configuration>
+                        <propertyFile>liquibase.properties</propertyFile>
+                        <changeLogFile>changelog.xml</changeLogFile>
+<!--                                                spring.liquibase.change-log=classpath:database/src/main/liquibase/changelog.xml-->
+                    </configuration>
+                    <dependencies>
+                        <dependency>
+                            <groupId>postgresql</groupId>
+                            <artifactId>postgresql</artifactId>
+                            <version>9.1-901-1.jdbc4</version>
+                        </dependency>
+                    </dependencies>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+</project>
