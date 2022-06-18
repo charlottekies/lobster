@@ -1,6 +1,7 @@
 package com.charlotte.kies.controller;
 
-import com.charlotte.kies.User;
+import com.charlotte.kies.model.LobsterData;
+import com.charlotte.kies.model.User;
 import com.charlotte.kies.repository.UserRepository;
 import com.charlotte.kies.service.LobsterService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,4 +28,10 @@ public class Controller {
 
     @RequestMapping(value = "/users", method = RequestMethod.GET)
     public List<User> getUsers() { return userRepository.findAll();}
+
+    @RequestMapping(value = "/lobsters/historical-price-data", method = RequestMethod.GET)
+    private LobsterData getHistoricalPriceData() {
+        LobsterData historicalPriceData;
+        historicalPriceData = LobsterService.getHistoricalPriceData();
+        return historicalPriceData;}
 }

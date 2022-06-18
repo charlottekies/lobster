@@ -1,4 +1,4 @@
-package com.charlotte.kies;
+package com.charlotte.kies.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sun.istack.NotNull;
