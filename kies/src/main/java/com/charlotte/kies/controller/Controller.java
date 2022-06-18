@@ -1,6 +1,6 @@
 package com.charlotte.kies.controller;
 
-import com.charlotte.kies.User;
+import com.charlotte.kies.model.User;
 import com.charlotte.kies.repository.UserRepository;
 import com.charlotte.kies.service.LobsterService;
 import org.springframework.beans.factory.annotation.Autowired;

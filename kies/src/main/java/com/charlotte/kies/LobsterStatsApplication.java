@@ -11,7 +11,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @SpringBootApplication
 @ComponentScan({"com.charlotte.kies.controller", "com.charlotte.kies.repository", "com.charlotte.kies.service"})
 @EnableJpaRepositories("com.charlotte.kies.repository")
-@EntityScan(basePackages = {"com.charlotte.kies"})
+@EntityScan(basePackages = {"com.charlotte.kies.model"})
 public class LobsterStatsApplication {
 
 
