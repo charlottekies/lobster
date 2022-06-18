@@ -9,7 +9,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 //@SpringBootApplication(exclude = ElasticsearchDataAutoConfiguration.class)
 @SpringBootApplication
-@ComponentScan({"com.charlotte.kies.controller", "com.charlotte.kies.repository", "com.charlotte.kies.service"})
+@ComponentScan({"com.charlotte.kies.controller", "com.charlotte.kies.repository", "com.charlotte.kies.service", "com.charlotte.kies.model"})
 @EnableJpaRepositories("com.charlotte.kies.repository")
 @EntityScan(basePackages = {"com.charlotte.kies.model"})
 public class LobsterStatsApplication {

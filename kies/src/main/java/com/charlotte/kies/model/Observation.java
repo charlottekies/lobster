@@ -18,12 +18,12 @@ public class Observation {
     private String date;
 
     @Column(name = "value")
-    private Double value;
+    private String value;
 
     public Observation() {
     }
 
-    public Observation(String realtimeStart, String realtimeEnd, String date, Double value) {
+    public Observation(String realtimeStart, String realtimeEnd, String date, String value) {
         this.realtimeStart = realtimeStart;
         this.realtimeEnd = realtimeEnd;
         this.date = date;
@@ -54,11 +54,11 @@ public class Observation {
         this.date = date;
     }
 
-    public Double getValue() {
+    public String getValue() {
         return value;
     }
 
-    public void setValue(Double value) {
+    public void setValue(String value) {
         this.value = value;
     }
 }
