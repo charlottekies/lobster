@@ -35,6 +35,19 @@ class App extends React.Component {
         body = response.data.observations;
         this.setState({ lobsterData: body });
         console.log(response.data.observations);
+        let data = response.data.observations;
+        let dates = "";
+        let price = "";
+        let i;
+        for (i = 0; i < data.length; i++) {
+          dates += data[i].date + ",";
+          price += data[i].value + ",";
+        }
+
+        this.setState({ dates: dates });
+        this.setState({ dates: this.state.dates.split(",") });
+        this.setState({ price: price });
+        this.setState({ price: this.state.price.split(",") });
       })
       .catch((error) => console.error("Unable to get items.", error));
   }
