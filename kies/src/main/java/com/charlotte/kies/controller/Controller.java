@@ -5,13 +5,12 @@ import com.charlotte.kies.model.User;
 import com.charlotte.kies.repository.UserRepository;
 import com.charlotte.kies.service.LobsterService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
+@CrossOrigin(origins = "http://127.0.0.1:3000", allowCredentials = "true")
 public class Controller {
 
     @Autowired
@@ -19,9 +18,7 @@ public class Controller {
 
     @Autowired
     private UserRepository userRepository;
-
-
-    @RequestMapping(method = RequestMethod.GET)
+    @GetMapping()
     public String Greeting() {
         return "hello, world";
     }
