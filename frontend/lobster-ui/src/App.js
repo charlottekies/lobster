@@ -41,21 +41,9 @@ export default class App extends React.Component {
 
   // set Line graph data with returned historical lobster prices
   setData(data) {
-    let value = "";
-    let values = [];
-    let dates = [];
-    data.forEach((month) => {
-      if (month.value !== ".") {
-        value = parseFloat(month.value);
-        values.push(value);
-      } else {
-        values.push(".");
-      }
-      dates.push(month.date);
-    });
-    this.setState({ dates: dates });
-    this.setState({ prices: values });
-
+    // initialize state arrays for lobster Prices and Dates
+    this.setPricesAndDates(data);
+    // use the state arrays for prices and dates to initialize the chart data
     this.setState({
       data: {
         labels: this.state.dates,
@@ -72,6 +60,24 @@ export default class App extends React.Component {
     });
   }
 
+  setPricesAndDates(data) {
+    let value = "";
+    let values = [];
+    let dates = [];
+    data.forEach((month) => {
+      if (month.value !== ".") {
+        value = parseFloat(month.value);
+        values.push(value);
+      } else {
+        values.push(".");
+      }
+      dates.push(month.date);
+    });
+    this.setState({ dates: dates });
+    this.setState({ prices: values });
+  }
+
+  // This is what displays on the page
   render() {
     // Define two constants from state variables
     const { isLoading, data } = this.state;
