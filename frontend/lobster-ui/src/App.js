@@ -3,6 +3,7 @@ import "./App.css";
 import React from "react";
 import axios from "axios";
 import { Line } from "react-chartjs-2";
+// you MUST register your chart in order to use it, to prevent Category error
 import { Chart, registerables } from "chart.js";
 Chart.register(...registerables);
 
