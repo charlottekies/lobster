@@ -6,6 +6,7 @@ import { Line } from "react-chartjs-2";
 import { Chart, registerables } from "chart.js";
 Chart.register(...registerables);
 
+// create an Axios instance, in order to call the backend
 const http = axios.create({
   baseURL: "http://localhost:8080",
 });
@@ -23,19 +24,22 @@ export default class App extends React.Component {
     };
   }
 
+  //After mount, this hook runs
   componentDidMount() {
     console.debug("After mount! Let's load data from API...");
-    // axios.get("https://pokeapi.co/api/v2/pokemon/4").then((response) => {
-    //   this.setState({ pokemon: response.data });
-    //   this.setState({ isLoading: false });
-    // });
+
+    // get Historical Lobster Prices from the server
     http.get("/lobsters/historical-price-data").then((response) => {
       this.setState({ lobsterData: response.data.observations });
+
+      // set Line Data with returned historical price data
       this.setData(response.data.observations);
+      // set loading to false, so the correct div will display on the screen
       this.setState({ isLoading: false });
     });
   }
 
+  // set Line graph data with returned historical lobster prices
   setData(data) {
     let value = "";
     let values = [];
@@ -57,7 +61,7 @@ export default class App extends React.Component {
         labels: this.state.dates,
         datasets: [
           {
-            label: "First dataset",
+            label: "Historical Lobster Prices",
             data: this.state.prices,
             fill: true,
             backgroundColor: "rgba(75,192,192,0.2)",
@@ -69,17 +73,26 @@ export default class App extends React.Component {
   }
 
   render() {
-    const { isLoading } = this.state;
+    // Define two constants from state variables
+    const { isLoading, data } = this.state;
 
+    // condition 1. If data has not been returned, show this div
     if (isLoading) {
-      return <div className="App">Loading...</div>;
-    }
+      return (
+        <div className="App">
+          <p>Lobsters coming soon...</p>
+        </div>
+      );
 
-    return (
-      <div className="App">
-        <h1>Lobster Data</h1>
-        <Line data={this.state.data} />
-      </div>
-    );
+      // otherwise, condition 2: Load the data in a chart
+    } else {
+      return (
+        <div className="App">
+          <h1>Lobster Data</h1>
+          {/* data is a constant defined using state in Render() */}
+          <Line data={data} />
+        </div>
+      );
+    }
   }
 }
