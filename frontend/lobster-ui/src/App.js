@@ -2,88 +2,68 @@ import logo from "./logo.svg";
 import "./App.css";
 import React from "react";
 import axios from "axios";
-import { Line } from "react-chartjs-2";
+// import { Line } from "react-chartjs-2";
 
 const http = axios.create({
   baseURL: "http://localhost:8080",
 });
 
-class App extends React.Component {
-  state = {
-    lobsterData: [],
-    prices: [],
-    dates: [],
-    data: {},
-  };
-
-  // on page load
-  componentDidMount() {
-    let body = "";
-    let newArray = this.state.prices;
-    let monthsArray = this.state.dates;
-    http
-      .get("/lobsters/historical-price-data")
-      .then((response) => {
-        body = response.data.observations;
-        this.setState({ lobsterData: body });
-
-        this.state.lobsterData.forEach((month) => {
-          let value = "";
-          if (month.value !== ".") {
-            value = parseFloat(month.value);
-          } else {
-            value = 0;
-          }
-
-          newArray.push(value);
-
-          monthsArray.push(month.date);
-        });
-      })
-      .catch((error) => console.error("Unable to get items.", error));
-    this.setState({ prices: newArray });
-    console.log(this.state.prices);
-    this.setState({ dates: monthsArray });
-    this.setData();
+export default class App extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isLoading: true,
+      data: {},
+      dates: [],
+      prices: [],
+      pokemon: "my pokemon",
+    };
   }
 
-  setData() {
-    this.setState({
-      data: {
-        labels: this.state.dates,
-        datasets: [
-          {
-            label: "First dataset",
-            data: this.state.prices,
-            fill: true,
-            backgroundColor: "rgba(75,192,192,0.2)",
-            borderColor: "rgba(75,192,192,1)",
-          },
-        ],
-      },
+  componentDidMount() {
+    console.debug("After mount! Let's load data from API...");
+    // axios.get("https://pokeapi.co/api/v2/pokemon/4").then((response) => {
+    //   this.setState({ pokemon: response.data });
+    //   this.setState({ isLoading: false });
+    // });
+    http.get("/lobsters/historical-price-data").then((response) => {
+      console.log(response);
+      this.setState({ lobsterData: response.data });
+      this.setState({ isLoading: false });
     });
   }
 
   render() {
+    const { isLoading, lobsterData } = this.state;
+
+    if (isLoading) {
+      return <div className="App">Loading...</div>;
+    }
+
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <div className="App-intro">
-            <h2>Lobster Prices</h2>
-            {/* <Line data={this.state.data} /> */}
-            {this.state.data.datasets?.data ?? "Not loaded yet"}
-
-            {/* {this.state.lobsterData.map((array) => (
-              <div key={array.date}>
-                {array.date} <span>value: </span>
-                {array.value}
-              </div>
-            ))} */}
-          </div>
-        </header>
+        <h1>Lobster Data</h1>
+        {/* <img alt={pokemon.name} src={pokemon.sprites.front_default} /> */}
+        {this.state.lobsterData.observations[0].value}
       </div>
     );
   }
 }
-export default App;
+
+// this.setState(
+//   {
+//     data: {
+//       labels: this.state.dates,
+//       datasets: [
+//         {
+//           label: "First dataset",
+//           data: this.state.prices,
+//           fill: true,
+//           backgroundColor: "rgba(75,192,192,0.2)",
+//           borderColor: "rgba(75,192,192,1)",
+//         },
+//       ],
+//     },
+//   },
+//   []
+// );
