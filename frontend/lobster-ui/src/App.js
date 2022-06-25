@@ -20,7 +20,6 @@ export default class App extends React.Component {
       data: "",
       dates: [],
       prices: [],
-      pokemon: "my pokemon",
     };
   }
 
