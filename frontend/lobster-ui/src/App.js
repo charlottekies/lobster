@@ -100,6 +100,25 @@ export default class App extends React.Component {
     this.setState({ prices: values });
     this.setState({ dollarValues: dollarValues });
   }
+  getPercentChange(currentValue, lastMonthValue) {
+    if (currentValue > lastMonthValue) {
+      let percentIncrease =
+        ((currentValue - lastMonthValue) / lastMonthValue) * 100;
+      return (
+        "This is a " +
+        percentIncrease.toFixed(2) +
+        "% increase from last month's price"
+      );
+    } else {
+      let percentDecrease =
+        ((lastMonthValue - currentValue) / lastMonthValue) * 100;
+      return (
+        "This is a " +
+        percentDecrease.toFixed(2) +
+        "% decrease from last month's price."
+      );
+    }
+  }
 
   // This is what displays on the page
   render() {
@@ -124,9 +143,14 @@ export default class App extends React.Component {
             <div id="chart-container">
               <Line id="chart" data={data} />
               <p>
-                {" "}
                 The current average price of a 1.25-pound lobster is $
                 {dollarValues[dollarValues.length - 1].toFixed(2)}
+              </p>
+              <p>
+                {this.getPercentChange(
+                  dollarValues[dollarValues.length - 1],
+                  dollarValues[dollarValues.length - 2]
+                )}
               </p>
             </div>
           </div>
