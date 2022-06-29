@@ -11,3 +11,21 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+#chart {
+  width: 1000%;
+}
+
+#chart-container {
+  margin: 0 auto;
+  overflow-x: auto;
+  width: 500px;
+}
+
+
+
+
+
+
+
+

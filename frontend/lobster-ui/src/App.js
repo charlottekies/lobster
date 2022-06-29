@@ -21,6 +21,7 @@ export default class App extends React.Component {
       data: "",
       dates: [],
       prices: [],
+      pricesInDollars: [],
     };
   }
 
@@ -64,23 +65,46 @@ export default class App extends React.Component {
     let value = "";
     let values = [];
     let dates = [];
-    data.forEach((month) => {
+    let dollarValues = [4.2147303699496];
+
+    data.forEach((month, index) => {
       if (month.value !== ".") {
         value = parseFloat(month.value);
         values.push(value);
+        // if index > 0,
+        if (index > 0) {
+          // Calculate percentage increase/decrease from value at index-1 to value
+          if (values[0] > value) {
+            let percentDecrease = (values[0] - value) / values[0];
+            let newDollarValue =
+              dollarValues[0] + dollarValues[0] * percentDecrease;
+            dollarValues.push(newDollarValue);
+            // if the price of lobster is less than what it was in December, 1991:
+          } else {
+            let percentIncrease = (value - values[0]) / values[0];
+            let newDollarValue =
+              dollarValues[0] + dollarValues[0] * percentIncrease;
+            dollarValues.push(newDollarValue);
+          }
+        }
+
+        // Calculate dollar amount increase/decrease from dollarValue at index-1
+        // add result ^^ to dollarValues
       } else {
         values.push(".");
+        dollarValues.push(".");
       }
       dates.push(month.date);
     });
     this.setState({ dates: dates });
     this.setState({ prices: values });
+    this.setState({ dollarValues: dollarValues });
   }
 
   // This is what displays on the page
   render() {
     // Define two constants from state variables
-    const { isLoading, data } = this.state;
+    const { isLoading, data, dollarValues } = this.state;
 
     // condition 1. If data has not been returned, show this div
     if (isLoading) {
@@ -96,7 +120,16 @@ export default class App extends React.Component {
         <div className="App">
           <h1>Lobster Data</h1>
           {/* data is a constant defined using state in Render() */}
-          <Line data={data} />
+          <div id="chart-container-container">
+            <div id="chart-container">
+              <Line id="chart" data={data} />
+              <p>
+                {" "}
+                The current average price of a 1.25-pound lobster is $
+                {dollarValues[dollarValues.length - 1].toFixed(2)}
+              </p>
+            </div>
+          </div>
         </div>
       );
     }
