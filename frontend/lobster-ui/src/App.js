@@ -104,7 +104,7 @@ export default class App extends React.Component {
   // This is what displays on the page
   render() {
     // Define two constants from state variables
-    const { isLoading, data } = this.state;
+    const { isLoading, data, dollarValues } = this.state;
 
     // condition 1. If data has not been returned, show this div
     if (isLoading) {
@@ -123,6 +123,11 @@ export default class App extends React.Component {
           <div id="chart-container-container">
             <div id="chart-container">
               <Line id="chart" data={data} />
+              <p>
+                {" "}
+                The current average price of a 1.25-pound lobster is $
+                {dollarValues[dollarValues.length - 1]}
+              </p>
             </div>
           </div>
         </div>
