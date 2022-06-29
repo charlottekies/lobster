@@ -126,7 +126,7 @@ export default class App extends React.Component {
               <p>
                 {" "}
                 The current average price of a 1.25-pound lobster is $
-                {dollarValues[dollarValues.length - 1]}
+                {dollarValues[dollarValues.length - 1].toFixed(2)}
               </p>
             </div>
           </div>
