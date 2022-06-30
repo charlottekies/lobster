@@ -1,8 +1,10 @@
 package com.charlotte.kies.service;
 
 import com.charlotte.kies.model.InflationData;
+import com.charlotte.kies.model.LobsterData;
 import com.charlotte.kies.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -77,7 +79,27 @@ public class InflationService {
 
     /***** Methods *****/
     public static InflationData getHistoricalInflationData() {
-        return new InflationData();
+        InflationData inflationData = new InflationData();
+        try {
+            ResponseEntity<InflationData> response = restTemplate.exchange(baseUrl+ seriesId + API_KEY + fileType, HttpMethod.GET,makeEntity(),InflationData.class);
+            inflationData = response.getBody();
+        } catch(Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return inflationData;
+    }
+
+    private static HttpEntity<?> makeEntity() {
+        HttpHeaders headers = userAgentHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        return new HttpEntity<>(headers);
+    }
+
+    public static HttpHeaders userAgentHeaders() {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("user-agent", "Mozilla/5.0 Firefox/26.0");
+        return headers;
+
     }
 
 }
