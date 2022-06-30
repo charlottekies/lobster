@@ -26,6 +26,7 @@ public class LobsterService {
         this.userRepository = userRepository;
     }
 
+    /**** Getters and Setters ****/
     public String getBaseUrl() {
         return baseUrl;
     }

@@ -1,8 +1,10 @@
 package com.charlotte.kies.controller;
 
+import com.charlotte.kies.model.InflationData;
 import com.charlotte.kies.model.LobsterData;
 import com.charlotte.kies.model.User;
 import com.charlotte.kies.repository.UserRepository;
+import com.charlotte.kies.service.InflationService;
 import com.charlotte.kies.service.LobsterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +17,9 @@ public class Controller {
 
     @Autowired
     private LobsterService lobsterService;
+
+    @Autowired
+    private InflationService inflationService;
 
     @Autowired
     private UserRepository userRepository;
@@ -30,5 +35,13 @@ public class Controller {
     private LobsterData getHistoricalPriceData() {
         LobsterData historicalPriceData;
         historicalPriceData = LobsterService.getHistoricalPriceData();
-        return historicalPriceData;}
+        return historicalPriceData;
+    }
+
+    @RequestMapping(value="/inflation/historical-inflation-rates", method = RequestMethod.GET)
+    private InflationData getHistoricalInflationData() {
+        InflationData inflationData;
+        inflationData = InflationService.getHistoricalInflationData();
+        return inflationData;
+    }
 }
