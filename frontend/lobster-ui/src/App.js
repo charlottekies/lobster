@@ -22,6 +22,7 @@ export default class App extends React.Component {
       dates: [],
       prices: [],
       pricesInDollars: [],
+      inflationData: [],
     };
   }
 
@@ -35,6 +36,11 @@ export default class App extends React.Component {
 
       // set Line Data with returned historical price data
       this.setData(response.data.observations);
+
+      // get Historical Inflation Data
+      http.get("/inflation/historical-inflation-rates").then((response) => {
+        this.setState({ inflationData: response.data });
+      });
       // set loading to false, so the correct div will display on the screen
       this.setState({ isLoading: false });
     });
@@ -151,6 +157,12 @@ export default class App extends React.Component {
                   dollarValues[dollarValues.length - 1],
                   dollarValues[dollarValues.length - 2]
                 )}
+              </p>
+              <p>
+                Inflation is 7 percent Inflation increased 1% since last month
+                In comparison, lobster prices decreased 27% since last month
+                Your dollar doesn't go as for So find the thing that is on sale
+                Lobster prices are down.
               </p>
             </div>
           </div>
