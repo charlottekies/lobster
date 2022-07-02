@@ -15,6 +15,7 @@ const http = axios.create({
 export default class App extends React.Component {
   constructor(props) {
     super(props);
+
     this.state = {
       isLoading: true,
       lobsterData: {},
@@ -48,6 +49,48 @@ export default class App extends React.Component {
       // set loading to false, so the correct div will display on the screen
       this.setState({ isLoading: false });
     });
+    this.main();
+  }
+
+  getLobsterData(path) {
+    return new Promise(function (resolve, reject) {
+      http.get(path).then(
+        (response) => {
+          let result = response.data;
+          console.log("Lobster Data " + result);
+          resolve(result);
+        },
+        (error) => {
+          reject("no response" + error);
+        }
+      );
+    });
+  }
+
+  getHistoricalInflationData(path) {
+    return new Promise(function (resolve, reject) {
+      http.get(path).then(
+        (response) => {
+          let result = response.data;
+          // gets inflation data
+          console.log("inflation data" + response.data);
+
+          resolve(result);
+        },
+        (error) => {
+          reject("no response" + error);
+        }
+      );
+    });
+  }
+
+  async main() {
+    await this.getLobsterData(
+      "http://127.0.0.1:8080/lobsters/historical-price-data"
+    );
+    let result2 = await this.getHistoricalInflationData(
+      "http://127.0.0.1:8080/inflation/historical-inflation-rates"
+    );
   }
 
   setInflationValues(inflationData) {
@@ -179,9 +222,16 @@ export default class App extends React.Component {
                 Lobster prices are down.
               </p>
               <p>
-                Inflation:{" "}
+                Current Rate of Inflation:{" "}
                 {parseFloat(
                   inflationValues[inflationValues.length - 1]
+                ).toFixed(2)}{" "}
+                %
+              </p>
+              <p>
+                Last Month's Rate of Inflation:{" "}
+                {parseFloat(
+                  inflationValues[inflationValues.length - 2]
                 ).toFixed(2)}{" "}
                 %
               </p>
