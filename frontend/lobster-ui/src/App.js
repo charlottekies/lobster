@@ -23,6 +23,8 @@ export default class App extends React.Component {
       prices: [],
       pricesInDollars: [],
       inflationData: [],
+      inflationValues: [],
+      inflationDates: [],
     };
   }
 
@@ -39,11 +41,23 @@ export default class App extends React.Component {
 
       // get Historical Inflation Data
       http.get("/inflation/historical-inflation-rates").then((response) => {
-        this.setState({ inflationData: response.data });
+        this.setState({ inflationData: response.data.observations });
+        this.setInflationValues(this.state.inflationData);
       });
+
       // set loading to false, so the correct div will display on the screen
       this.setState({ isLoading: false });
     });
+  }
+
+  setInflationValues(inflationData) {
+    let values = [];
+    if (inflationData?.length) {
+      inflationData.forEach((observation, index) => {
+        values.push(observation.value);
+      });
+    }
+    this.setState({ inflationValues: values });
   }
 
   // set Line graph data with returned historical lobster prices
@@ -129,7 +143,7 @@ export default class App extends React.Component {
   // This is what displays on the page
   render() {
     // Define two constants from state variables
-    const { isLoading, data, dollarValues } = this.state;
+    const { isLoading, data, dollarValues, inflationValues } = this.state;
 
     // condition 1. If data has not been returned, show this div
     if (isLoading) {
@@ -163,6 +177,13 @@ export default class App extends React.Component {
                 In comparison, lobster prices decreased 27% since last month
                 Your dollar doesn't go as for So find the thing that is on sale
                 Lobster prices are down.
+              </p>
+              <p>
+                Inflation:{" "}
+                {parseFloat(
+                  inflationValues[inflationValues.length - 1]
+                ).toFixed(2)}{" "}
+                %
               </p>
             </div>
           </div>
