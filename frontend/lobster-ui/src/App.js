@@ -15,6 +15,7 @@ const http = axios.create({
 export default class App extends React.Component {
   constructor(props) {
     super(props);
+
     this.state = {
       isLoading: true,
       lobsterData: {},
@@ -22,6 +23,14 @@ export default class App extends React.Component {
       dates: [],
       prices: [],
       pricesInDollars: [],
+      inflationData: [],
+      inflationValues: [],
+      inflationDates: [],
+      lobsterPricesDown: true,
+      lobsterPricesUp: true,
+      inflationIsDown: true,
+      inflationIsUp: true,
+      buyLevel: "Strong Sell",
     };
   }
 
@@ -35,9 +44,41 @@ export default class App extends React.Component {
 
       // set Line Data with returned historical price data
       this.setData(response.data.observations);
+
+      // get Historical Inflation Data
+      http.get("/inflation/historical-inflation-rates").then((response) => {
+        this.setState({ inflationData: response.data.observations });
+        this.setInflationValues(this.state.inflationData);
+      });
+
       // set loading to false, so the correct div will display on the screen
       this.setState({ isLoading: false });
     });
+  }
+
+  getLobsterData(path) {
+    return new Promise(function (resolve, reject) {
+      http.get(path).then(
+        (response) => {
+          let result = response.data;
+          console.log("Lobster Data " + result);
+          resolve(result);
+        },
+        (error) => {
+          reject("no response" + error);
+        }
+      );
+    });
+  }
+
+  setInflationValues(inflationData) {
+    let values = [];
+    if (inflationData?.length) {
+      inflationData.forEach((observation, index) => {
+        values.push(observation.value);
+      });
+    }
+    this.setState({ inflationValues: values });
   }
 
   // set Line graph data with returned historical lobster prices
@@ -100,30 +141,120 @@ export default class App extends React.Component {
     this.setState({ prices: values });
     this.setState({ dollarValues: dollarValues });
   }
+
   getPercentChange(currentValue, lastMonthValue) {
     if (currentValue > lastMonthValue) {
+      this.setState({ lobsterPricesDown: false });
       let percentIncrease =
         ((currentValue - lastMonthValue) / lastMonthValue) * 100;
       return (
         "This is a " +
         percentIncrease.toFixed(2) +
-        "% increase from last month's price"
+        "% increase from last month's price. That means you can afford " +
+        percentIncrease.toFixed(0) +
+        "% less lobster than you could last month."
       );
     } else {
+      this.setState({ lobsterPricesUp: false });
       let percentDecrease =
         ((lastMonthValue - currentValue) / lastMonthValue) * 100;
       return (
         "This is a " +
         percentDecrease.toFixed(2) +
-        "% decrease from last month's price."
+        "% decrease from last month's price. You can afford " +
+        percentDecrease.toFixed(0) +
+        "% more lobster than you could last month."
       );
+    }
+  }
+
+  whatShouldYouDo() {
+    let recommendation = {
+      recommendation: "",
+      buyLevel: this.state.buyLevel,
+    };
+    if (this.state.lobsterPricesDown && this.state.inflationIsUp) {
+      this.setState({ buyLevel: "Strong Buy" });
+      recommendation.recommendation =
+        "Lobster prices are down, while prices of other goods are generally up. You should definitely buy lobster.";
+      return recommendation;
+    } else if (this.state.lobsterPricesUp && this.state.inflationIsUp) {
+      this.setState({ buyLevel: "Sell" });
+      recommendation.recommendation =
+        "Prices are on the rise for most goods as well as lobster. Maybe get the chicken.";
+      return recommendation;
+    } else if (this.state.lobsterPricesDown && this.state.inflationIsDown) {
+      this.setState({ buyLevel: "Strong Buy" });
+      recommendation.recommendation =
+        "Lobster prices are down, but so are the prices of other goods. You should definitely buy more lobster than you usually would.";
+      return recommendation;
+    } else if (this.state.lobsterPricesUp ** this.state.InflationIsDown) {
+      this.setState({ buyLevel: "Strong Sell" });
+      recommendation.recommendation =
+        "Look, lobster prices are up, while most other goods cost less than they did last month. Conditions for buying lobster are sub-optimal.";
+      return recommendation;
+    }
+  }
+
+  color() {
+    if (this.state.buyLevel.includes("Sell")) {
+      return "red";
+    } else {
+      return "green";
+    }
+  }
+
+  getCurrentInfationRate() {
+    let inflationRate;
+    try {
+      inflationRate = parseFloat(
+        this.state.inflationValues[this.state.inflationValues.length - 1]
+      ).toFixed(2);
+    } catch (e) {
+      inflationRate = "Please reload";
+    }
+    return inflationRate;
+  }
+
+  getLastMonthInflationRate() {
+    let inflationRate;
+    try {
+      inflationRate = parseFloat(
+        this.state.inflationValues[this.state.inflationValues.length - 2]
+      ).toFixed(2);
+    } catch (e) {
+      inflationRate = "Please reload";
+    }
+    return inflationRate;
+  }
+
+  isInflationUp() {
+    if (
+      parseFloat(
+        this.state.inflationValues[this.state.inflationValues.length - 1]
+      ) >
+      parseFloat(
+        this.state.inflationValues[this.state.inflationValues.length - 2]
+      )
+    ) {
+      return "Inflation is higher than it was last month.";
+    } else {
+      return "Inflation is lower than it was last month.";
     }
   }
 
   // This is what displays on the page
   render() {
     // Define two constants from state variables
-    const { isLoading, data, dollarValues } = this.state;
+    const {
+      isLoading,
+      data,
+      dollarValues,
+      inflationValues,
+      lobsterPricesDown,
+      lobsterPricesUp,
+      buyLevel,
+    } = this.state;
 
     // condition 1. If data has not been returned, show this div
     if (isLoading) {
@@ -142,6 +273,12 @@ export default class App extends React.Component {
           <div id="chart-container-container">
             <div id="chart-container">
               <Line id="chart" data={data} />
+              <h2>Recommendation:</h2>
+              <p></p>
+              <p style={{ color: this.color(), fontWeight: 800 }}>
+                {this.whatShouldYouDo().buyLevel}
+              </p>
+              <p>{this.whatShouldYouDo().recommendation}</p>
               <p>
                 The current average price of a 1.25-pound lobster is $
                 {dollarValues[dollarValues.length - 1].toFixed(2)}
@@ -152,6 +289,15 @@ export default class App extends React.Component {
                   dollarValues[dollarValues.length - 2]
                 )}
               </p>
+
+              <p>
+                Last Month's Rate of Inflation:{" "}
+                {this.getLastMonthInflationRate()}%
+              </p>
+              <p>
+                Current Rate of Inflation: {this.getCurrentInfationRate()}%.{" "}
+              </p>
+              <p> {this.isInflationUp()}</p>
             </div>
           </div>
         </div>
