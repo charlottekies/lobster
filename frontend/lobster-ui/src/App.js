@@ -26,6 +26,10 @@ export default class App extends React.Component {
       inflationData: [],
       inflationValues: [],
       inflationDates: [],
+      lobsterPricesDown: true,
+      lobsterPricesUp: true,
+      inflationIsDown: true,
+      inflationIsUp: true,
     };
   }
 
@@ -49,7 +53,6 @@ export default class App extends React.Component {
       // set loading to false, so the correct div will display on the screen
       this.setState({ isLoading: false });
     });
-    this.main();
   }
 
   getLobsterData(path) {
@@ -65,32 +68,6 @@ export default class App extends React.Component {
         }
       );
     });
-  }
-
-  getHistoricalInflationData(path) {
-    return new Promise(function (resolve, reject) {
-      http.get(path).then(
-        (response) => {
-          let result = response.data;
-          // gets inflation data
-          console.log("inflation data" + response.data);
-
-          resolve(result);
-        },
-        (error) => {
-          reject("no response" + error);
-        }
-      );
-    });
-  }
-
-  async main() {
-    await this.getLobsterData(
-      "http://127.0.0.1:8080/lobsters/historical-price-data"
-    );
-    let result2 = await this.getHistoricalInflationData(
-      "http://127.0.0.1:8080/inflation/historical-inflation-rates"
-    );
   }
 
   setInflationValues(inflationData) {
@@ -163,8 +140,10 @@ export default class App extends React.Component {
     this.setState({ prices: values });
     this.setState({ dollarValues: dollarValues });
   }
+
   getPercentChange(currentValue, lastMonthValue) {
     if (currentValue > lastMonthValue) {
+      this.setState({ lobsterPricesDown: false });
       let percentIncrease =
         ((currentValue - lastMonthValue) / lastMonthValue) * 100;
       return (
@@ -173,6 +152,7 @@ export default class App extends React.Component {
         "% increase from last month's price"
       );
     } else {
+      this.setState({ lobsterPricesUp: false });
       let percentDecrease =
         ((lastMonthValue - currentValue) / lastMonthValue) * 100;
       return (
@@ -183,10 +163,29 @@ export default class App extends React.Component {
     }
   }
 
+  whatShouldYouDo() {
+    if (this.state.lobsterPricesDown && this.state.inflationIsUp) {
+      return "Lobster prices are down, while prices of other goods are generally rising. You should definitely buy lobster.";
+    } else if (this.state.lobsterPricesUp && this.state.inflationIsUp) {
+      return "Prices are on the rise for most goods as well as lobster. Maybe get the chicken.";
+    } else if (this.state.lobsterPricesDown && this.state.inflationIsDown) {
+      return "Lobster prices are down, but so are the prices of other goods. You should definitely buy more lobster than you usually would.";
+    } else if (this.state.lobsterPricesUp ** this.state.InflationIsDown) {
+      return "Look, lobster prices are up, while most other goods cost less than they did last month. Conditions for buying lobster are sub-optimal.";
+    }
+  }
+
   // This is what displays on the page
   render() {
     // Define two constants from state variables
-    const { isLoading, data, dollarValues, inflationValues } = this.state;
+    const {
+      isLoading,
+      data,
+      dollarValues,
+      inflationValues,
+      lobsterPricesDown,
+      lobsterPricesUp,
+    } = this.state;
 
     // condition 1. If data has not been returned, show this div
     if (isLoading) {
@@ -215,11 +214,13 @@ export default class App extends React.Component {
                   dollarValues[dollarValues.length - 2]
                 )}
               </p>
+
               <p>
-                Inflation is 7 percent Inflation increased 1% since last month
-                In comparison, lobster prices decreased 27% since last month
-                Your dollar doesn't go as for So find the thing that is on sale
-                Lobster prices are down.
+                Last Month's Rate of Inflation:{" "}
+                {parseFloat(
+                  inflationValues[inflationValues.length - 2]
+                ).toFixed(2)}{" "}
+                %
               </p>
               <p>
                 Current Rate of Inflation:{" "}
@@ -229,12 +230,16 @@ export default class App extends React.Component {
                 %
               </p>
               <p>
-                Last Month's Rate of Inflation:{" "}
                 {parseFloat(
-                  inflationValues[inflationValues.length - 2]
-                ).toFixed(2)}{" "}
-                %
+                  inflationValues[inflationValues.length - 1]
+                ).toFixed(2) >
+                parseFloat(inflationValues[inflationValues.length - 2]).toFixed(
+                  2
+                )
+                  ? "Inflation increased in the last month."
+                  : "Inflation decreased in the last month."}
               </p>
+              <p>{this.whatShouldYouDo()}</p>
             </div>
           </div>
         </div>
