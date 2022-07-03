@@ -1,9 +1,5 @@
 <?xml version="1.1" encoding="UTF-8" standalone="no"?>
 <databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:pro="http://www.liquibase.org/xml/ns/pro" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-4.6.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd">
-    <include file="users-table-schema-2.sql" relativeToChangelogFile="true"/>
-    <changeSet author="charlotte.kies" id="1"><tagDatabase tag="sprint1"/></changeSet>
-    <include file="users-table-schema-2.sql" relativeToChangelogFile="true"/>
-    <changeSet author="charlotte.kies" id="2"><tagDatabase tag="sprint2"/></changeSet>
-    <include file="users-table-schema-3.sql" relativeToChangelogFile="true"/>
-    <changeSet author="charlotte.kies" id="3"><tagDatabase tag="sprint3"/></changeSet>
+    <include file="update-users-table" relativeToChangelogFile="true"/>
+    <changeSet author="charlotte.kies" id="3"><tagDatabase tag="sprint2"/></changeSet>
 </databaseChangeLog>
