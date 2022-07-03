@@ -1,3 +1,4 @@
+import jwt_decode from "jwt-decode";
 import logo from "./logo.svg";
 import "./App.css";
 import React from "react";
@@ -34,8 +35,25 @@ export default class App extends React.Component {
     };
   }
 
+  handleCallbackResponse(response) {
+    console.log("Token: " + response.credential);
+    let userObject = jwt_decode(response.credential);
+    console.log(userObject);
+  }
+
   //After mount, this hook runs
   componentDidMount() {
+    /* global google */
+    google.accounts.id.initialize({
+      client_id: process.env.REACT_APP_CLIENT_ID,
+      callback: this.handleCallbackResponse,
+    });
+
+    google.accounts.id.renderButton(document.getElementById("signInDiv"), {
+      theme: "outline",
+      size: "large",
+    });
+
     console.debug("After mount! Let's load data from API...");
 
     // get Historical Lobster Prices from the server
@@ -261,6 +279,7 @@ export default class App extends React.Component {
       return (
         <div className="App">
           <p>Lobsters coming soon...</p>
+          <div id="signInDiv"></div>
         </div>
       );
 
