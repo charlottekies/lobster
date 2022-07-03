@@ -20,6 +20,16 @@ public class AuthController {
     private UserRepository userRepository;
 
     @RequestMapping(value = "/google/signin", method = RequestMethod.POST)
-    public GoogleUser getUsers(@RequestBody GoogleUser googleUser) { return googleUser;}
+    public User getUsers(@RequestBody GoogleUser googleUser) {
+        User user = new User();
+        user.setEmail(googleUser.getEmail());
+        user.setName(googleUser.getName());
+        user.setFirstName(googleUser.getGiven_name());
+        user.setLastName(googleUser.getFamily_name());
+        user.setUsername(googleUser.getEmail());
+        authservice.loginGoogleUser(user);
+
+        return user;
+        }
 
 }
