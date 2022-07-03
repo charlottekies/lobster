@@ -27,8 +27,8 @@ public class AuthController {
         user.setFirstName(googleUser.getGiven_name());
         user.setLastName(googleUser.getFamily_name());
         user.setUsername(googleUser.getEmail());
+        user.setRole("user");
         authservice.loginGoogleUser(user);
-
         return user;
         }
 
