@@ -16,7 +16,11 @@ public class AuthService {
     }
 
     public User loginGoogleUser(User user) {
-        userRepository.save(user);
+        try {
+            userRepository.save(user);
+        } catch(Exception e) {
+            System.out.println(e.getMessage());
+        }
         return user;
     }
 }

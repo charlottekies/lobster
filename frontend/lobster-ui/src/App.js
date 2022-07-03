@@ -263,6 +263,12 @@ export default class App extends React.Component {
     }
   }
 
+  getUsers() {
+    http.get("/users").then((response) => {
+      console.log(response.data);
+    });
+  }
+
   // This is what displays on the page
   render() {
     // Define two constants from state variables
@@ -319,6 +325,7 @@ export default class App extends React.Component {
                 Current Rate of Inflation: {this.getCurrentInfationRate()}%.{" "}
               </p>
               <p> {this.isInflationUp()}</p>
+              <button onClick="this.getUsers()">CLickme</button>
             </div>
           </div>
         </div>
