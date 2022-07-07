@@ -1,2 +1,4 @@
-package com.charlotte.kies.security;public class JwtRequestFilter {
+package com.charlotte.kies.security;
+
+public class JwtRequestFilter {
 }

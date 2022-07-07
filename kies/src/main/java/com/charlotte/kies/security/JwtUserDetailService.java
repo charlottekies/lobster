@@ -1,2 +1,4 @@
-package com.charlotte.kies.security;public class JwtUserDetailService {
+package com.charlotte.kies.security;
+
+public class JwtUserDetailService {
 }
