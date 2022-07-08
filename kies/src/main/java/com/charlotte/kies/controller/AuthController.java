@@ -36,7 +36,6 @@ public class AuthController {
     @Value("${CLIENT_ID}")
     private String CLIENT_ID;
 
-    @PreAuthorize("isAuthenticated")
     @RequestMapping(value = "/google/signin/{token}", method = RequestMethod.POST)
     public User getUsers(@RequestBody GoogleUser googleUser, @PathVariable String token) throws GeneralSecurityException, IOException {
         User user = new User();

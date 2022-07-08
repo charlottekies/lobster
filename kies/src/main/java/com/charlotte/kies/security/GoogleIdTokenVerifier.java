@@ -1,11 +1,15 @@
 package com.charlotte.kies.security;
 
+import com.charlotte.kies.model.GoogleUser;
 import com.google.api.client.auth.openidconnect.IdTokenVerifier;
+import com.google.api.client.http.HttpResponse;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.util.Beta;
 import com.google.api.client.util.Clock;
 import com.google.api.client.util.Preconditions;
+import org.springframework.http.*;
+import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;
@@ -148,7 +152,30 @@ public class GoogleIdTokenVerifier extends IdTokenVerifier {
      */
     public GoogleIdToken verify(String idTokenString) throws GeneralSecurityException, IOException {
         GoogleIdToken idToken = GoogleIdToken.parse(getJsonFactory(), idTokenString);
-        return verify(idToken) ? idToken : null;
+        GoogleUser googleUser = new GoogleUser();
+        try {
+            RestTemplate restTemplate = new RestTemplate();
+            ResponseEntity<GoogleUser> response = restTemplate.exchange("https://oauth2.googleapis.com/tokeninfo?id_token="+idTokenString, HttpMethod.POST,makeEntity(),GoogleUser.class);
+            googleUser = response.getBody();
+            return idToken;
+        } catch(Exception e) {
+            System.out.println(e.getMessage());
+            return null;
+        }
+
+//        return verify(idToken) ? idToken : null;
+    }
+    public HttpHeaders userAgentHeaders() {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("user-agent", "Mozilla/5.0 Firefox/26.0");
+        return headers;
+    }
+
+    /** create HttpEntity to send with get requests. Includes headers **/
+    private HttpEntity<?> makeEntity() {
+        HttpHeaders headers = userAgentHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        return new HttpEntity<>(headers);
     }
 
     /**
