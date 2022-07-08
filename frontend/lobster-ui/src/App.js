@@ -37,10 +37,15 @@ export default class App extends React.Component {
 
   handleCallbackResponse(response) {
     console.log("Token: " + response.credential);
-    let userObject = jwt_decode(response.credential);
-    http.post("/google/signin", userObject).then((response) => {
-      console.log(response);
-    });
+    let googleUser = jwt_decode(response.credential);
+    let token = response.credential;
+    http
+      .post(`/google/signin/${token}`, googleUser, {
+        headers: { Authorization: "Bearer " + token },
+      })
+      .then((response) => {
+        console.log(response);
+      });
   }
 
   //After mount, this hook runs

@@ -3,25 +3,44 @@ package com.charlotte.kies.model;
 
 import org.springframework.stereotype.Component;
 
+import javax.persistence.Column;
+
 @Component
 public class GoogleUser {
-
+    @Column
+    private String aud;
+    @Column
+    private String azp;
+    @Column
     private String email;
+    @Column
     private boolean email_verified;
+    @Column
     private long exp;
+    @Column
     private String family_name;
+    @Column
     private String given_name;
+    @Column
     private long iat;
+    @Column
     private String iss;
+    @Column
     private String jti;
+    @Column
     private String name;
+    @Column
     private long nbf;
+    @Column
     private String picture;
+    @Column
     private String sub;
 
 
     /**** Constructor ****/
-    public GoogleUser(String email, boolean email_verified, long exp, String family_name, String given_name, long iat, String iss, String jti, String name, long nbf, String picture, String sub) {
+    public GoogleUser(String aud, String azp, String email, boolean email_verified, long exp, String family_name, String given_name, long iat, String iss, String jti, String name, long nbf, String picture, String sub) {
+        this.aud = aud;
+        this.azp = azp;
         this.email = email;
         this.email_verified = email_verified;
         this.exp = exp;
@@ -38,7 +57,25 @@ public class GoogleUser {
 
     public GoogleUser() {};
 
+    public String getAud() {
+        return aud;
+    }
+
+    public void setAud(String aud) {
+        this.aud = aud;
+    }
+
+    public String getAzp() {
+        return azp;
+    }
+
+    public void setAzp(String azp) {
+        this.azp = azp;
+    }
+
     /**** Getters and Setters ****/
+
+
 
     public String getEmail() {
         return email;

@@ -1,6 +1,7 @@
 package com.charlotte.kies.security;
 
 import java.io.IOException;
+import java.security.GeneralSecurityException;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -21,6 +22,8 @@ public class JwtRequestFilter extends OncePerRequestFilter {
     private JwtUserDetailService jwtUserDetailsService;
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
+    @Autowired
+    private GoogleTokenUtil googleTokenUtil;
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
             throws ServletException, IOException {
@@ -32,17 +35,23 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         if (requestTokenHeader != null && requestTokenHeader.startsWith("Bearer ")) {
             jwtToken = requestTokenHeader.substring(7);
             try {
-                username = jwtTokenUtil.getUsernameFromToken(jwtToken);
+                /** get user details from GoogleTokenUtil instead of JwtTokenUtil ***/
+                username = googleTokenUtil.getUsernameFromToken(jwtToken);
+//                username = jwtTokenUtil.getUsernameFromToken(jwtToken);
             } catch (IllegalArgumentException e) {
                 System.out.println("Unable to get JWT Token");
             } catch (ExpiredJwtException e) {
                 System.out.println("JWT Token has expired");
+            } catch (GeneralSecurityException e) {
+                System.out.println("Unable to verify google token");
+                throw new RuntimeException(e);
             }
         } else {
             logger.warn("JWT Token does not begin with Bearer String");
         }
         // Once we get the token validate it.
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+
             UserDetails userDetails = this.jwtUserDetailsService.loadUserByUsername(username);
             // if token is valid configure Spring Security to manually set
             // authentication
