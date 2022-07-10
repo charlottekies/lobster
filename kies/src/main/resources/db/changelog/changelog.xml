@@ -8,4 +8,8 @@
     <changeSet author="charlotte.kies" id="4"><tagDatabase tag="sprint3"/></changeSet>
     <include file="add-password-hash.sql" relativeToChangelogFile="true"/>
     <changeSet author="charlotte.kies" id="5"><tagDatabase tag="sprint3"/></changeSet>
+    <include file="add-provider-column.sql" relativeToChangelogFile="true"/>
+    <changeSet author="charlotte.kies" id="6"><tagDatabase tag="sprint4"/></changeSet>
+    <include file="add-enabled-column.sql" relativeToChangelogFile="true"/>
+    <changeSet author="charlotte.kies" id="7"><tagDatabase tag="sprint4"/></changeSet>
 </databaseChangeLog>

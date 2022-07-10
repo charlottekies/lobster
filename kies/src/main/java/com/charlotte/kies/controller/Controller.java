@@ -7,8 +7,11 @@ import com.charlotte.kies.repository.UserRepository;
 import com.charlotte.kies.service.InflationService;
 import com.charlotte.kies.service.LobsterService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.AuthenticatedPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -28,8 +31,11 @@ public class Controller {
         return "hello, world";
     }
 
+    @PreAuthorize("isAuthenticated")
     @RequestMapping(value = "/users", method = RequestMethod.GET)
-    public List<User> getUsers() { return userRepository.findAll();}
+    public List<User> getUsers(Principal principal) {
+    System.out.println("The principal is: " + principal.getName());
+    return userRepository.findAll();}
 
     @RequestMapping(value = "/lobsters/historical-price-data", method = RequestMethod.GET)
     private LobsterData getHistoricalPriceData() {

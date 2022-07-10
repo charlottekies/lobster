@@ -1,5 +1,6 @@
 package com.charlotte.kies.model;
 
+import com.charlotte.kies.Provider;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sun.istack.NotNull;
 import lombok.Data;
@@ -50,12 +51,20 @@ public class User {
     @JsonIgnore
     private String password_hash;
 
+    @Enumerated(EnumType.STRING)
+    private Provider provider;
+
+    @Column(name = "enabled")
+    private String enabled;
+
     public User(Long userId, String username, String email, String password_hash) {
         this.userId = userId;
         this.username = username;
         this.email = email;
         this.password_hash = password_hash;
     }
+
+
 
     public User() {};
 
@@ -121,6 +130,24 @@ public class User {
 
     public void setRole(String role) {
         this.role = role;
+    }
+
+    public void setProvider(Provider google) {
+    }
+
+    public void setEnabled(boolean b) {
+    }
+
+    public Provider getProvider() {
+        return provider;
+    }
+
+    public String getEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(String enabled) {
+        this.enabled = enabled;
     }
 }
 
