@@ -12,4 +12,8 @@
     <changeSet author="charlotte.kies" id="6"><tagDatabase tag="sprint4"/></changeSet>
     <include file="add-enabled-column.sql" relativeToChangelogFile="true"/>
     <changeSet author="charlotte.kies" id="7"><tagDatabase tag="sprint4"/></changeSet>
+    <include file="add-vote-type-sequence.sql" relativeToChangelogFile="true"/>
+    <changeSet author="charlotte.kies" id="8"><tagDatabase tag="sprint5"/></changeSet>
+    <include file="add-vote-type-table.sql" relativeToChangelogFile="true"/>
+    <changeSet author="charlotte.kies" id="9"><tagDatabase tag="sprint5"/></changeSet>
 </databaseChangeLog>
