@@ -1,5 +1,6 @@
 import React from "react";
 import Button from "./Button.js";
+import VoteButtons from "./VoteButtons.js";
 import axios from "axios";
 import jwt_decode from "jwt-decode";
 
@@ -70,7 +71,14 @@ class Users extends React.Component {
     return (
       <h1>
         <Button name={this.state.name} token={this.state.token}></Button>
-        <button onClick={() => this.handleClick()}>CLICK ME</button>
+        {/* In order to fire button only on click, use this syntax and bind above */}
+        {/* <button onClick={() => this.handleClick()}>
+          Click this button to view ALL users
+        </button> */}
+        <h1>Do you think that prices will go up or down next month?</h1>
+
+        {/* Add voting buttons */}
+        {this.state.token !== "" ? <VoteButtons /> : "Login to vote."}
       </h1>
     );
   }

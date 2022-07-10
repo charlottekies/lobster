@@ -1,21 +1,21 @@
 import React from "react";
 
-class Button extends React.Component {
+class VoteButtons extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       token: "",
-      name: "",
     };
   }
   render() {
     return (
       <div>
         <div id="signInDiv"></div>
-        {this.state.token ? <h1>Hello, {this.props.name}</h1> : ""}
+        <button>Up</button>
+        <button>Down</button>
       </div>
     );
   }
 }
 
-export default Button;
+export default VoteButtons;
