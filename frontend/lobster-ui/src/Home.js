@@ -1,4 +1,3 @@
-// import { foo } from "./service.js";
 import jwt_decode from "jwt-decode";
 import logo from "./logo.svg";
 import "./App.css";
@@ -338,7 +337,6 @@ export default class Home extends React.Component {
                 Current Rate of Inflation: {this.getCurrentInfationRate()}%.{" "}
               </p>
               <p> {this.isInflationUp()}</p>
-              {/* <button onClick={foo(this.state.token)}>CLickme</button> */}
             </div>
           </div>
         </div>
