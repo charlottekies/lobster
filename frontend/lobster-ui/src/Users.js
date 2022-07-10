@@ -75,7 +75,7 @@ class Users extends React.Component {
         {/* <button onClick={() => this.handleClick()}>
           Click this button to view ALL users
         </button> */}
-        <h1>Do you think that prices will go up or down next month?</h1>
+        <h2>Do you think that prices will go up or down next month?</h2>
 
         {/* Add voting buttons */}
         {this.state.token !== "" ? <VoteButtons /> : "Login to vote."}

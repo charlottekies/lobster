@@ -2,6 +2,7 @@ import jwt_decode from "jwt-decode";
 import Users from "./Users.js";
 import logo from "./logo.svg";
 import VoteButtons from "./VoteButtons.js";
+import SignInButton from "./SignInButton.js";
 import "./App.css";
 import React from "react";
 import axios from "axios";
@@ -271,6 +272,7 @@ export default class Home extends React.Component {
     } else {
       return (
         <div className="App">
+          <SignInButton />
           <Users />
 
           <h1>Lobster Data</h1>

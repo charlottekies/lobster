@@ -6,12 +6,18 @@ class VoteButtons extends React.Component {
     this.state = {
       token: "",
     };
+    this.handleVoteUp = this.handleVoteUp.bind(this);
+  }
+
+  handleVoteUp() {
+    console.log("You voted up");
   }
   render() {
     return (
       <div>
         <div id="signInDiv"></div>
-        <button>Up</button>
+        <button onClick={() => this.handleVoteUp()}>Up</button>
+        Click this button to view ALL users
         <button>Down</button>
       </div>
     );
