@@ -12,6 +12,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
@@ -40,29 +41,31 @@ public class LobsterStatsApplication {
 
 
 	}
-	@Bean
-	public WebMvcConfigurer corsConfigurer() {
-		return new WebMvcConfigurer() {
-			@Override
-			public void addCorsMappings(CorsRegistry registry) {
-				registry.addMapping("/**").allowedOrigins("http://localhost:3000");
-			}
-		};
-	}
-
 //	@Bean
-//	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-//		http
-//				.authorizeRequests(authorize -> authorize
-//						.anyRequest().authenticated()
-//				)
-//				.formLogin(withDefaults())
-//				.httpBasic(withDefaults());
-//		return http.build();
+//	public WebMvcConfigurer corsConfigurer() {
+//		return new WebMvcConfigurer() {
+//			@Override
+//			public void addCorsMappings(CorsRegistry registry) {
+//				registry.addMapping("/**").allowedOrigins("http://localhost:3000");
+//				registry.addMapping("/**").allowedOrigins("http://localhost");
+//			}
+//		};
 //	}
 
 
+	@Configuration
+	@EnableWebMvc
+	public class WebConfig implements WebMvcConfigurer {
 
-
+		@Override
+		public void addCorsMappings(CorsRegistry registry) {
+			registry.addMapping("/**")
+					.allowedOrigins("http://localhost:3000")
+					.allowedMethods("POST","GET","PUT", "DELETE")
+					.allowedHeaders("*")
+					.exposedHeaders("*")
+					.allowCredentials(true).maxAge(3600);
+		}
+	}
 
 }

@@ -32,6 +32,22 @@ public class JwtRequestFilter extends OncePerRequestFilter {
     private UserDetails userdetails;
     @Autowired
     private GoogleTokenUtil googleTokenUtil;
+
+    public JwtRequestFilter(GoogleTokenUtil googleTokenUtil) {
+        this.googleTokenUtil = googleTokenUtil;
+    }
+
+    public JwtRequestFilter(AuthService authService, JwtUserDetailService jwtUserDetailsService, JwtTokenUtil jwtTokenUtil, GoogleTokenUtil googleTokenUtil) {
+        this.authService = authService;
+        this.jwtUserDetailsService = jwtUserDetailsService;
+        this.jwtTokenUtil = jwtTokenUtil;
+//        this.userdetails = userdetails;
+        this.googleTokenUtil = googleTokenUtil;
+    }
+
+    public JwtRequestFilter() {
+
+    }
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
             throws ServletException, IOException {

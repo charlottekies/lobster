@@ -39,7 +39,7 @@ import java.util.Collections;
 import static org.springframework.security.web.context.HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY;
 
 @RestController
-@CrossOrigin(origins = "http://127.0.0.1:3000", allowCredentials = "true")
+@CrossOrigin(origins = "http://localhost:3000, http://localhost:8080", allowCredentials = "true")
 public class AuthController {
 
     @Autowired
@@ -52,6 +52,7 @@ public class AuthController {
     private String CLIENT_ID;
 
 
+    @PreAuthorize("PermitAll")
     @RequestMapping(value = "/google/signin/{token}", method = RequestMethod.POST)
     public User getUsers(@RequestBody GoogleUser googleUser, @PathVariable String token, HttpServletRequest req) throws GeneralSecurityException, IOException {
         User user = new User();

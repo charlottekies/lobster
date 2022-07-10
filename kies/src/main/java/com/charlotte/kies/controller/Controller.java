@@ -33,7 +33,7 @@ public class Controller {
 
     @PreAuthorize("isAuthenticated")
     @RequestMapping(value = "/users", method = RequestMethod.GET)
-    public List<User> getUsers(AuthenticatedPrincipal principal) {
+    public List<User> getUsers(Principal principal) {
     System.out.println("The principal is: " + principal.getName());
     return userRepository.findAll();}
 

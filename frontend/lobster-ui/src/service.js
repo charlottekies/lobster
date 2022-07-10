@@ -5,10 +5,13 @@ import axios from "axios";
 const http = axios.create({
   baseURL: "http://localhost:8080",
 });
-export const foo = () => {
-  http.get("/users").then((response) => {
-    console.log(response);
-  });
+
+export const foo = (token) => {
+  http
+    .get("/users", { headers: { Authorization: "Bearer " + token } })
+    .then((response) => {
+      console.log(response);
+    });
   // code
 };
 
