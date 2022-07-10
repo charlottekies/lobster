@@ -19,8 +19,20 @@ export const bar = () => [
   // ... the code is omitted for the brevity
 ];
 
+export const vote = (token, vote) => {
+  // http
+  //   .get("/vote", vote, { headers: { Authorization: "Bearer " + token } })
+  //   .then((response) => {
+  //     console.log(response);
+  //   });
+  console.log("Your token: " + token);
+  console.log("Your vote: " + vote);
+  // code
+};
+
 // eslint-disable-next-line import/no-anonymous-default-export
 export default {
   foo,
   bar,
+  vote,
 };

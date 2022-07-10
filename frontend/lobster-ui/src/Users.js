@@ -82,7 +82,11 @@ class Users extends React.Component {
         <h2>Do you think that prices will go up or down next month?</h2>
 
         {/* Add voting buttons */}
-        {this.state.token !== "" ? <VoteButtons /> : "Login to vote."}
+        {this.state.token !== "" ? (
+          <VoteButtons token={this.state.token} />
+        ) : (
+          "Login to vote."
+        )}
       </div>
     );
   }
