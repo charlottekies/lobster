@@ -2,6 +2,7 @@ package com.charlotte.kies.security;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;
+import java.security.Principal;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -86,6 +87,8 @@ public class JwtRequestFilter extends OncePerRequestFilter {
                     // that the current user is authenticated. So it passes the
                     // Spring Security Configurations successfully.
                     SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
+                    System.out.println(SecurityContextHolder.getContext().getAuthentication());
+
                 }
             } catch (GeneralSecurityException e) {
                 System.out.println("could not validate Google Token");

@@ -16,10 +16,9 @@ public class AuthService {
     }
 
     public User loginGoogleUser(User user) {
-        try {
-            userRepository.save(user);
-        } catch(Exception e) {
-            System.out.println(e.getMessage());
+
+        if (userRepository.findByEmail(user.getEmail()).size() == 0) {
+                userRepository.save(user);
         }
         return user;
     }

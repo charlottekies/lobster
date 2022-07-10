@@ -1,3 +1,4 @@
+import { foo } from "./service.js";
 import jwt_decode from "jwt-decode";
 import logo from "./logo.svg";
 import "./App.css";
@@ -32,13 +33,16 @@ export default class App extends React.Component {
       inflationIsDown: true,
       inflationIsUp: true,
       buyLevel: "Strong Sell",
+      token: "",
     };
+    this.handleCallbackResponse = this.handleCallbackResponse.bind(this);
   }
 
   handleCallbackResponse(response) {
     console.log("Token: " + response.credential);
     let googleUser = jwt_decode(response.credential);
     let token = response.credential;
+    this.setState({ token: token });
     http
       .post(`/google/signin/${token}`, googleUser, {
         headers: { Authorization: "Bearer " + token },
@@ -268,11 +272,15 @@ export default class App extends React.Component {
     }
   }
 
-  getUsers() {
-    http.get("/users").then((response) => {
-      console.log(response.data);
-    });
-  }
+  // getUsers() {
+  //   http
+  //     .get("/users", {
+  //       headers: { Authorization: "Bearer " + this.state.token },
+  //     })
+  //     .then((response) => {
+  //       console.log(response.data);
+  //     });
+  // }
 
   // This is what displays on the page
   render() {
@@ -330,7 +338,7 @@ export default class App extends React.Component {
                 Current Rate of Inflation: {this.getCurrentInfationRate()}%.{" "}
               </p>
               <p> {this.isInflationUp()}</p>
-              <button onClick="this.getUsers()">CLickme</button>
+              <button onClick={foo}>CLickme</button>
             </div>
           </div>
         </div>
