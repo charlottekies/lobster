@@ -69,18 +69,21 @@ class Users extends React.Component {
 
   render() {
     return (
-      <h1>
-        <Button name={this.state.name} token={this.state.token}></Button>
-        {/* In order to fire button only on click, use this syntax and bind above */}
-        {/* <button onClick={() => this.handleClick()}>
+      <div>
+        <h1>
+          <Button name={this.state.name} token={this.state.token}></Button>
+
+          {/* In order to fire button only on click, use this syntax and bind above */}
+          {/* <button onClick={() => this.handleClick()}>
           Click this button to view ALL users
         </button> */}
+        </h1>
 
         <h2>Do you think that prices will go up or down next month?</h2>
 
         {/* Add voting buttons */}
         {this.state.token !== "" ? <VoteButtons /> : "Login to vote."}
-      </h1>
+      </div>
     );
   }
 }
