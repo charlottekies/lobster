@@ -1,4 +1,5 @@
 import jwt_decode from "jwt-decode";
+import Users from "./Users.js";
 import logo from "./logo.svg";
 import "./App.css";
 import React from "react";
@@ -34,35 +35,35 @@ export default class Home extends React.Component {
       buyLevel: "Strong Sell",
       token: "",
     };
-    this.handleCallbackResponse = this.handleCallbackResponse.bind(this);
+    // this.handleCallbackResponse = this.handleCallbackResponse.bind(this);
   }
 
-  handleCallbackResponse(response) {
-    console.log("Token: " + response.credential);
-    let googleUser = jwt_decode(response.credential);
-    let token = response.credential;
-    this.setState({ token: token });
-    http
-      .post(`/google/signin/${token}`, googleUser, {
-        headers: { Authorization: "Bearer " + token },
-      })
-      .then((response) => {
-        console.log(response);
-      });
-  }
+  //   handleCallbackResponse(response) {
+  //     console.log("Token: " + response.credential);
+  //     let googleUser = jwt_decode(response.credential);
+  //     let token = response.credential;
+  //     this.setState({ token: token });
+  //     http
+  //       .post(`/google/signin/${token}`, googleUser, {
+  //         headers: { Authorization: "Bearer " + token },
+  //       })
+  //       .then((response) => {
+  //         console.log(response);
+  //       });
+  //   }
 
   //After mount, this hook runs
   componentDidMount() {
-    /* global google */
-    google.accounts.id.initialize({
-      client_id: process.env.REACT_APP_CLIENT_ID,
-      callback: this.handleCallbackResponse,
-    });
+    // /* global google */
+    // google.accounts.id.initialize({
+    //   client_id: process.env.REACT_APP_CLIENT_ID,
+    //   callback: this.handleCallbackResponse,
+    // });
 
-    google.accounts.id.renderButton(document.getElementById("signInDiv"), {
-      theme: "outline",
-      size: "large",
-    });
+    // google.accounts.id.renderButton(document.getElementById("signInDiv"), {
+    //   theme: "outline",
+    //   size: "large",
+    // });
 
     console.debug("After mount! Let's load data from API...");
 
@@ -299,7 +300,7 @@ export default class Home extends React.Component {
       return (
         <div className="App">
           <p>Lobsters coming soon...</p>
-          <div id="signInDiv"></div>
+          {/* <div id="signInDiv"></div> */}
         </div>
       );
 
@@ -307,6 +308,8 @@ export default class Home extends React.Component {
     } else {
       return (
         <div className="App">
+          <Users />
+
           <h1>Lobster Data</h1>
           {/* data is a constant defined using state in Render() */}
           <div id="chart-container-container">
