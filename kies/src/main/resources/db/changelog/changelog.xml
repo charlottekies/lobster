@@ -16,4 +16,8 @@
     <changeSet author="charlotte.kies" id="8"><tagDatabase tag="sprint5"/></changeSet>
     <include file="add-vote-type-table.sql" relativeToChangelogFile="true"/>
     <changeSet author="charlotte.kies" id="9"><tagDatabase tag="sprint5"/></changeSet>
+    <include file="add-user-vote-id-sequence.sql" relativeToChangelogFile="true"/>
+    <changeSet author="charlotte.kies" id="10"><tagDatabase tag="sprint5"/></changeSet>
+    <include file="add-user-vote-table.sql" relativeToChangelogFile="true"/>
+    <changeSet author="charlotte.kies" id="11"><tagDatabase tag="sprint5"/></changeSet>
 </databaseChangeLog>
