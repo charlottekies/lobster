@@ -8,11 +8,11 @@ class Button extends React.Component {
       name: "",
     };
   }
+
   render() {
     return (
       <div>
-        <div id="signInDiv"></div>
-        {this.state.token ? <h1>Hello, {this.props.name}</h1> : ""}
+        {this.props.name !== "" ? <h1>Hello, {this.props.name}</h1> : ""}
       </div>
     );
   }
