@@ -60,8 +60,8 @@ public class LobsterStatsApplication {
 		@Override
 		public void addCorsMappings(CorsRegistry registry) {
 			registry.addMapping("/**")
-					.allowedOrigins("http://localhost:3000")
-					.allowedMethods("POST","GET","PUT", "DELETE")
+					.allowedOrigins("http://localhost:3000","http://localhost:3000/home")
+					.allowedMethods("POST","GET","PUT", "DELETE", "OPTIONS")
 					.allowedHeaders("*")
 					.exposedHeaders("*")
 					.allowCredentials(true).maxAge(3600);

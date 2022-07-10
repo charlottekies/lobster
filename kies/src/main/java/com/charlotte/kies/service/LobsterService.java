@@ -2,11 +2,14 @@ package com.charlotte.kies.service;
 
 import com.charlotte.kies.model.LobsterData;
 import com.charlotte.kies.repository.UserRepository;
+import com.charlotte.kies.repository.VoteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+
+import java.security.Principal;
 
 @Service
 public class LobsterService {
@@ -21,6 +24,8 @@ public class LobsterService {
 
     @Autowired
     UserRepository userRepository;
+    @Autowired
+    VoteRepository voteRepository;
 
     public LobsterService(UserRepository userRepository) {
         this.userRepository = userRepository;
@@ -107,4 +112,8 @@ public class LobsterService {
     }
 
 
+    public boolean vote(Principal principal, float vote) {
+        System.out.println(principal);
+        return true;
+    }
 }

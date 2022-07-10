@@ -3,6 +3,7 @@ package com.charlotte.kies.controller;
 import com.charlotte.kies.model.InflationData;
 import com.charlotte.kies.model.LobsterData;
 import com.charlotte.kies.model.User;
+import com.charlotte.kies.model.Vote;
 import com.charlotte.kies.repository.UserRepository;
 import com.charlotte.kies.service.InflationService;
 import com.charlotte.kies.service.LobsterService;
@@ -49,5 +50,11 @@ public class Controller {
         InflationData inflationData;
         inflationData = InflationService.getHistoricalInflationData();
         return inflationData;
+    }
+    @PreAuthorize("isAuthenticated")
+    @RequestMapping(value="/vote/{vote}", method = RequestMethod.POST)
+    private boolean vote(@PathVariable float vote, Principal principal) {
+
+        return lobsterService.vote(principal, vote);
     }
 }

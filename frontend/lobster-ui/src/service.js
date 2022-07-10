@@ -12,7 +12,6 @@ export const foo = (token) => {
     .then((response) => {
       console.log(response);
     });
-  // code
 };
 
 export const bar = () => [
@@ -20,13 +19,15 @@ export const bar = () => [
 ];
 
 export const vote = (token, vote) => {
-  // http
-  //   .get("/vote", vote, { headers: { Authorization: "Bearer " + token } })
-  //   .then((response) => {
-  //     console.log(response);
-  //   });
-  console.log("Your token: " + token);
-  console.log("Your vote: " + vote);
+  http
+    .post(`/vote/${vote}`, {
+      headers: { Authorization: "Bearer " + token },
+    })
+    .then((response) => {
+      console.log(response);
+    });
+  // console.log("Your token: " + token);
+  // console.log("Your vote: " + vote);
   // code
 };
 
