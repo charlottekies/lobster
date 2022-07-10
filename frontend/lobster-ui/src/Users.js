@@ -12,12 +12,12 @@ const http = axios.create({
 class Users extends React.Component {
   constructor(props) {
     super(props);
+    this.handleCallbackResponse = this.handleCallbackResponse.bind(this);
+    this.handleClick = this.handleClick.bind(this);
     this.state = {
       token: "",
       name: "",
     };
-    this.handleCallbackResponse = this.handleCallbackResponse.bind(this);
-    this.getUsers = this.getUsers.bind(this);
   }
 
   // functions
@@ -70,7 +70,7 @@ class Users extends React.Component {
     return (
       <h1>
         <Button name={this.state.name} token={this.state.token}></Button>
-        <button onClick={this.handleClick()}>CLICK ME</button>
+        <button onClick={() => this.handleClick()}>CLICK ME</button>
       </h1>
     );
   }
