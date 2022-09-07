@@ -155,7 +155,7 @@ export default class Home extends React.Component {
         "This is a " +
         percentIncrease.toFixed(2) +
         "% increase from last month's price. That means you can afford " +
-        percentIncrease.toFixed(0) +
+        percentIncrease.toFixed(2) +
         "% less lobster than you could last month."
       );
     } else {
