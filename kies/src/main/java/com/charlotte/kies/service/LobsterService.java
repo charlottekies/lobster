@@ -113,7 +113,12 @@ public class LobsterService {
 
 
     public boolean vote(Principal principal, float vote) {
-        System.out.println(principal);
+        // todo: find userID where email = principal.getName();
+        /**
+         * Vote mostRecentVote = (SELECT * FROM user_vote where user_id = (SELECT user_id from users WHERE email = principal.getName()) ORDER BY vote_date LIMIT(1))
+            if mostRecentVote is less than two month ago on the 14th
+         */
+
         return true;
     }
 }

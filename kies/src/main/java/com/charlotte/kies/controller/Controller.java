@@ -52,7 +52,7 @@ public class Controller {
         return inflationData;
     }
     @PreAuthorize("isAuthenticated")
-    @RequestMapping(value="/vote/{vote}", method = RequestMethod.POST)
+    @RequestMapping(value="/users/{vote}", method = RequestMethod.GET)
     private boolean vote(@PathVariable float vote, Principal principal) {
 
         return lobsterService.vote(principal, vote);
